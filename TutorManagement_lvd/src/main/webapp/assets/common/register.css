@@ -1,0 +1,178 @@
+@charset "UTF-8";
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    color: #495057;
+}
+
+/* Navbar Styling */
+.navbar {
+    background-color: #0d6efd;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.navbar a:hover {
+    color: #d1d1d1;
+}
+
+/* Breadcrumb Styling */
+.breadcrumb {
+    background-color: transparent;
+    padding: 0;
+}
+
+.breadcrumb-item a {
+    text-decoration: none;
+    color: #0d6efd;
+}
+
+.breadcrumb-item a:hover {
+    text-decoration: underline;
+}
+
+.breadcrumb-item.active {
+    color: #6c757d;
+}
+
+/* Container */
+.container {
+    margin-top: 40px;
+}
+
+/* Alert Styling */
+.alert-dismissible {
+    position: relative;
+    padding: 10px 20px;
+    margin-bottom: 20px;
+}
+
+.alert .btn-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+/* Form and Card Styling */
+.card {
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    background-color: white;
+}
+
+.card-header {
+    background-color: #0d6efd;
+    color: white;
+    padding: 15px;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.card-footer {
+    background-color: #f8f9fa;
+    padding: 10px;
+    text-align: center;
+}
+
+.card-title {
+    font-size: 1.25rem;
+}
+
+.card-footer .btn {
+    width: 100%;
+}
+
+/* Form Styling */
+.form-label {
+    font-weight: bold;
+}
+
+input.form-control {
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 1rem;
+}
+
+.form-check-label {
+    font-size: 1rem;
+}
+
+.form-check-input {
+    margin-top: 6px;
+}
+
+.d-grid {
+    width: 100%;
+}
+
+.btn-primary {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+    padding: 12px;
+}
+
+.btn-primary:hover {
+    background-color: #0b5ed7;
+    border-color: #0b5ed7;
+}
+
+/* Footer Styling */
+footer {
+    background-color: #343a40;
+    color: white;
+    padding: 20px 0;
+}
+
+footer a {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+/* Form Validation */
+input[type="password"]:invalid {
+    border-color: red;
+}
+
+input[type="password"]:valid {
+    border-color: green;
+}
+
+/* Responsive Styling */
+@media (max-width: 768px) {
+    .container {
+        padding: 20px;
+    }
+
+    .card-body .row {
+        margin-bottom: 10px;
+    }
+
+    .form-label {
+        font-size: 0.9rem;
+    }
+
+    .form-check-label {
+        font-size: 0.9rem;
+    }
+
+    .btn-primary {
+        padding: 14px;
+    }
+}
