@@ -44,6 +44,37 @@ public class EnrollmentDAO {
         return enrollment;
     }
     
+    // Phương thức lấy tất cả đăng ký
+    public List<Enrollment> getAllEnrollments() {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        List<Enrollment> enrollments = new ArrayList<>();
+        
+        try {
+            conn = DatabaseConnection.getConnection();
+            String sql = "SELECT * FROM enrollments ORDER BY enrollment_date DESC";
+            stmt = conn.prepareStatement(sql);
+            rs = stmt.executeQuery();
+            
+            while (rs.next()) {
+                Enrollment enrollment = mapEnrollmentFromResultSet(rs);
+                // Lấy thông tin học viên và lớp học
+                Student student = studentDAO.getStudentById(enrollment.getStudentId());
+                ClassInfo classInfo = classDAO.getClassById(enrollment.getClassId());
+                enrollment.setStudent(student);
+                enrollment.setClassInfo(classInfo);
+                enrollments.add(enrollment);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            closeResources(conn, stmt, rs);
+        }
+        
+        return enrollments;
+    }
+    
     // Phương thức lấy các đăng ký theo học viên
     public List<Enrollment> getEnrollmentsByStudent(int studentId) {
         Connection conn = null;
@@ -53,7 +84,7 @@ public class EnrollmentDAO {
         
         try {
             conn = DatabaseConnection.getConnection();
-            String sql = "SELECT * FROM enrollments WHERE student_id = ?";
+            String sql = "SELECT * FROM enrollments WHERE student_id = ? ORDER BY enrollment_date DESC";
             stmt = conn.prepareStatement(sql);
             stmt.setInt(1, studentId);
             rs = stmt.executeQuery();
@@ -85,9 +116,41 @@ public class EnrollmentDAO {
         
         try {
             conn = DatabaseConnection.getConnection();
-            String sql = "SELECT * FROM enrollments WHERE class_id = ?";
+            String sql = "SELECT * FROM enrollments WHERE class_id = ? ORDER BY enrollment_date DESC";
             stmt = conn.prepareStatement(sql);
             stmt.setInt(1, classId);
+            rs = stmt.executeQuery();
+            
+            while (rs.next()) {
+                Enrollment enrollment = mapEnrollmentFromResultSet(rs);
+                // Lấy thông tin học viên và lớp học
+                Student student = studentDAO.getStudentById(enrollment.getStudentId());
+                ClassInfo classInfo = classDAO.getClassById(enrollment.getClassId());
+                enrollment.setStudent(student);
+                enrollment.setClassInfo(classInfo);
+                enrollments.add(enrollment);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            closeResources(conn, stmt, rs);
+        }
+        
+        return enrollments;
+    }
+    
+    // Phương thức lấy các đăng ký theo trạng thái
+    public List<Enrollment> getEnrollmentsByStatus(String status) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        List<Enrollment> enrollments = new ArrayList<>();
+        
+        try {
+            conn = DatabaseConnection.getConnection();
+            String sql = "SELECT * FROM enrollments WHERE status = ? ORDER BY enrollment_date DESC";
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, status);
             rs = stmt.executeQuery();
             
             while (rs.next()) {
@@ -160,7 +223,7 @@ public class EnrollmentDAO {
         return success;
     }
     
- // Phương thức cập nhật trạng thái đăng ký
+    // Phương thức cập nhật trạng thái đăng ký
     public boolean updateEnrollmentStatus(int enrollmentId, String status) {
         Connection conn = null;
         PreparedStatement stmt = null;

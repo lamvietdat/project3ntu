@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,7 +8,7 @@
     <title>Đăng nhập - Trung tâm Gia sư LVD</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/common/login.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/common/login.css">
 </head>
 <body>
     <!-- Thanh điều hướng -->
@@ -65,14 +64,26 @@
                         <h4 class="mb-0">Đăng nhập</h4>
                     </div>
                     <div class="card-body">
-                        <form action="${pageContext.request.contextPath}/login" method="post">
+                        <form action="${pageContext.request.contextPath}/login" method="post" id="loginForm">
+                            <!-- CSRF Token -->
+                            <input type="hidden" name="csrfToken" value="${csrfToken}">
+                            
                             <div class="mb-3">
                                 <label for="username" class="form-label">Tên đăng nhập</label>
                                 <input type="text" class="form-control" id="username" name="username" required>
                             </div>
                             <div class="mb-3">
                                 <label for="password" class="form-label">Mật khẩu</label>
-                                <input type="password" class="form-control" id="password" name="password" required>
+                                <div class="input-group">
+                                    <input type="password" class="form-control" id="password" name="password" required>
+                                    <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                                        <i class="bi bi-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="mb-3 form-check">
+                                <input type="checkbox" class="form-check-input" id="rememberMe" name="rememberMe">
+                                <label class="form-check-label" for="rememberMe">Ghi nhớ đăng nhập</label>
                             </div>
                             <div class="d-grid">
                                 <button type="submit" class="btn btn-primary">Đăng nhập</button>
@@ -118,7 +129,35 @@
         </div>
     </footer>
     
-    <script src="/assets/js/jquery-3.6.0.min.js"></script>
-    <script src="/assets/js/bootstrap.bundle.min.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/js/jquery-3.6.0.min.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Hiển thị/ẩn mật khẩu
+        document.getElementById('togglePassword').addEventListener('click', function() {
+            const passwordInput = document.getElementById('password');
+            const icon = this.querySelector('i');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.classList.remove('bi-eye');
+                icon.classList.add('bi-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                icon.classList.remove('bi-eye-slash');
+                icon.classList.add('bi-eye');
+            }
+        });
+        
+        // Kiểm tra form trước khi submit
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            if (username.trim() === '' || password.trim() === '') {
+                event.preventDefault();
+                alert('Vui lòng nhập đầy đủ tên đăng nhập và mật khẩu!');
+            }
+        });
+    </script>
 </body>
 </html>

@@ -10,6 +10,7 @@ import lvd.dao.UserDAO;
 import lvd.model.Tutor;
 import lvd.model.User;
 import lvd.util.AuthUtil;
+import lvd.util.PasswordUtil;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -154,8 +155,15 @@ public class TutorProfileServlet extends HttpServlet {
         String confirmPassword = request.getParameter("confirmPassword");
         
         // Kiểm tra mật khẩu hiện tại
-        if (!currentUser.getPassword().equals(currentPassword)) {
+        if (!PasswordUtil.verifyPassword(currentPassword, currentUser.getPassword())) {
             AuthUtil.storeErrorMessage(request, "Mật khẩu hiện tại không đúng!");
+            response.sendRedirect(request.getContextPath() + "/tutor/profile");
+            return;
+        }
+        
+        // Kiểm tra mật khẩu mới có đủ mạnh không
+        if (newPassword.length() < 6) {
+            AuthUtil.storeErrorMessage(request, "Mật khẩu mới phải có ít nhất 6 ký tự!");
             response.sendRedirect(request.getContextPath() + "/tutor/profile");
             return;
         }
@@ -167,12 +175,15 @@ public class TutorProfileServlet extends HttpServlet {
             return;
         }
         
+        // Mã hóa mật khẩu mới
+        String hashedPassword = PasswordUtil.hashPassword(newPassword);
+        
         // Cập nhật mật khẩu
-        boolean success = userDAO.updatePassword(currentUser.getUserId(), newPassword);
+        boolean success = userDAO.updatePassword(currentUser.getUserId(), hashedPassword);
         
         if (success) {
             // Cập nhật thông tin người dùng trong session
-            currentUser.setPassword(newPassword);
+            currentUser.setPassword(hashedPassword);
             AuthUtil.storeLoginedUser(request, currentUser);
             AuthUtil.storeSuccessMessage(request, "Đổi mật khẩu thành công!");
         } else {
@@ -181,5 +192,4 @@ public class TutorProfileServlet extends HttpServlet {
         
         response.sendRedirect(request.getContextPath() + "/tutor/profile");
     }
-
 }

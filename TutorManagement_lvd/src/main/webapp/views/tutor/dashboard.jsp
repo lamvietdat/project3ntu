@@ -24,16 +24,16 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="views/common/home">Trang chủ</a>
+                        <a class="nav-link" href="${pageContext.request.contextPath}/home">Trang chủ</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="views/tutor/dashboard">Bảng điều khiển</a>
+                        <a class="nav-link active" href="${pageContext.request.contextPath}/tutor/dashboard">Bảng điều khiển</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="views/tutor/classes">Lớp của tôi</a>
+                        <a class="nav-link" href="${pageContext.request.contextPath}/tutor/classes">Lớp của tôi</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="views/tutor/profile">Hồ sơ</a>
+                        <a class="nav-link" href="${pageContext.request.contextPath}/tutor/profile">Hồ sơ</a>
                     </li>
                 </ul>
                 
@@ -43,7 +43,7 @@
                             <i class="bi bi-person-circle"></i> ${loginedUser.fullName}
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item" href="views/tutor/profile">Hồ sơ</a></li>
+                            <li><a class="dropdown-item" href="${pageContext.request.contextPath}/tutor/profile">Hồ sơ</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="${pageContext.request.contextPath}/logout">Đăng xuất</a></li>
                         </ul>
@@ -164,8 +164,9 @@
                                                 </c:choose>
                                             </td>
                                             <td>
-                                                <!-- Giả sử có phương thức để đếm số học viên trong lớp -->
-                                                <span class="badge bg-secondary">12 / ${classInfo.maxStudents}</span>
+                                                <!-- Đếm số học viên trong lớp -->
+                                                <c:set var="enrolledCount" value="${enrollmentCounts[classInfo.classId]}" />
+                                                <span class="badge bg-secondary">${enrolledCount != null ? enrolledCount : 0} / ${classInfo.maxStudents}</span>
                                             </td>
                                         </tr>
                                     </c:forEach>
@@ -247,7 +248,7 @@
         </div>
     </footer>
     
-    <script src="/assets/js/jquery-3.6.0.min.js"></script>
-    <script src="/assets/js/bootstrap.bundle.min.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/js/jquery-3.6.0.min.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

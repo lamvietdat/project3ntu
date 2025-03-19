@@ -24,16 +24,16 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="views/common/home">Trang chủ</a>
+                        <a class="nav-link" href="${pageContext.request.contextPath}/home">Trang chủ</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="views/tutor/dashboard">Bảng điều khiển</a>
+                        <a class="nav-link" href="${pageContext.request.contextPath}/tutor/dashboard">Bảng điều khiển</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="views/tutor/classes">Lớp của tôi</a>
+                        <a class="nav-link" href="${pageContext.request.contextPath}/tutor/classes">Lớp của tôi</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="views/tutor/profile">Hồ sơ</a>
+                        <a class="nav-link active" href="${pageContext.request.contextPath}/tutor/profile">Hồ sơ</a>
                     </li>
                 </ul>
                 
@@ -216,7 +216,7 @@
                                     <div class="d-flex align-items-center mb-1">
                                         <small class="me-2">${i} <i class="bi bi-star-fill text-warning"></i></small>
                                         <div class="progress flex-grow-1" style="height: 8px;">
-                                            <div class="progress-bar bg-warning" role="progressbar" style="width: ${reviews.stream().filter(r -> r.rating == i).count() * 100 / (reviews.size() > 0 ? reviews.size() : 1)}%"></div>
+                                            <div class="progress-bar bg-warning" role="progressbar" style="width: ${reviews.size() > 0 ? reviews.stream().filter(r -> r.rating == i).count() * 100 / reviews.size() : 0}%"></div>
                                         </div>
                                         <small class="ms-2">${reviews.stream().filter(r -> r.rating == i).count()}</small>
                                     </div>
@@ -383,8 +383,8 @@
         </div>
     </footer>
     
-    <script src="/assets/js/jquery-3.6.0.min.js"></script>
-    <script src="/assets/js/bootstrap.bundle.min.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/js/jquery-3.6.0.min.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/js/bootstrap.bundle.min.js"></script>
     <script>
         // Kiểm tra xác nhận mật khẩu
         document.getElementById('confirmPassword').addEventListener('input', function() {

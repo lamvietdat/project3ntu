@@ -23,7 +23,7 @@
             width: 100%;
             height: 100%;
             border-radius: 50%;
-            background: conic-gradient(#0d6efd 0% 75%, transparent 75% 100%);
+            background: conic-gradient(#0d6efd 0% var(--progress), transparent var(--progress) 100%);
         }
 
         .progress-circle-inner:before {
@@ -153,19 +153,29 @@
                         <div class="card h-100">
                             <div class="card-body text-center">
                                 <h6 class="card-subtitle mb-2 text-muted">Học viên đã đăng ký</h6>
+                                
+                                <!-- Tính phần trăm học viên đã đăng ký -->
+                                <c:set var="enrolledCount" value="0" />
+                                <c:forEach items="${enrollments}" var="enrollment">
+                                    <c:if test="${enrollment.status == 'approved' || enrollment.status == 'completed'}">
+                                        <c:set var="enrolledCount" value="${enrolledCount + 1}" />
+                                    </c:if>
+                                </c:forEach>
+                                <c:set var="enrollmentPercentage" value="${(enrolledCount / classInfo.maxStudents) * 100}" />
+                                
                                 <div class="d-flex justify-content-center align-items-center" style="height: 150px;">
                                     <div class="position-relative d-inline-block">
-                                        <div class="progress-circle" style="width: 120px; height: 120px;">
+                                        <div class="progress-circle" style="width: 120px; height: 120px; --progress: ${enrollmentPercentage}%;">
                                             <div class="progress-circle-inner d-flex align-items-center justify-content-center">
                                                 <div>
-                                                    <h2 class="mb-0">12</h2>
+                                                    <h2 class="mb-0">${enrolledCount}</h2>
                                                     <small class="text-muted">/ ${classInfo.maxStudents}</small>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <p class="card-text mt-3">Còn ${classInfo.maxStudents - 12} chỗ trống</p>
+                                <p class="card-text mt-3">Còn ${classInfo.maxStudents - enrolledCount} chỗ trống</p>
                             </div>
                         </div>
                     </div>
@@ -175,7 +185,7 @@
                 <a href="${pageContext.request.contextPath}/tutor/classes" class="btn btn-secondary">
                     <i class="bi bi-arrow-left"></i> Quay lại
                 </a>
-                <button type="button" class="btn btn-primary" onclick="editClass(${classInfo.classId})">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editClassModal">
                     <i class="bi bi-pencil"></i> Chỉnh sửa
                 </button>
                 <div class="btn-group">
@@ -217,8 +227,10 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <c:set var="hasStudents" value="false" />
                             <c:forEach items="${enrollments}" var="enrollment">
                                 <c:if test="${enrollment.status == 'approved' || enrollment.status == 'completed'}">
+                                    <c:set var="hasStudents" value="true" />
                                     <tr>
                                         <td>${enrollment.student.user.fullName}</td>
                                         <td>${enrollment.student.user.email}</td>
@@ -238,6 +250,12 @@
                                     </tr>
                                 </c:if>
                             </c:forEach>
+                            
+                            <c:if test="${!hasStudents}">
+                                <tr>
+                                    <td colspan="6" class="text-center">Chưa có học viên nào trong lớp</td>
+                                </tr>
+                            </c:if>
                         </tbody>
                     </table>
                 </div>
@@ -257,8 +275,10 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <c:set var="hasPendingEnrollments" value="false" />
                             <c:forEach items="${enrollments}" var="enrollment">
                                 <c:if test="${enrollment.status == 'pending'}">
+                                    <c:set var="hasPendingEnrollments" value="true" />
                                     <tr>
                                         <td>${enrollment.student.user.fullName}</td>
                                         <td>${enrollment.student.user.email}</td>
@@ -288,8 +308,68 @@
                                     </tr>
                                 </c:if>
                             </c:forEach>
+                            
+                            <c:if test="${!hasPendingEnrollments}">
+                                <tr>
+                                    <td colspan="6" class="text-center">Không có yêu cầu đăng ký nào chờ duyệt</td>
+                                </tr>
+                            </c:if>
                         </tbody>
                     </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal chỉnh sửa lớp học -->
+        <div class="modal fade" id="editClassModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary text-white">
+                        <h5 class="modal-title">Chỉnh sửa lớp học</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form action="${pageContext.request.contextPath}/tutor/classes" method="post">
+                        <input type="hidden" name="action" value="update">
+                        <input type="hidden" name="classId" value="${classInfo.classId}">
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="className" class="form-label">Tên lớp học</label>
+                                <input type="text" class="form-control" id="className" name="className" value="${classInfo.className}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="description" class="form-label">Mô tả</label>
+                                <textarea class="form-control" id="description" name="description" rows="3">${classInfo.description}</textarea>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="startDate" class="form-label">Ngày bắt đầu</label>
+                                    <input type="date" class="form-control" id="startDate" name="startDate" value="<fmt:formatDate value="${classInfo.startDate}" pattern="yyyy-MM-dd"/>" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="endDate" class="form-label">Ngày kết thúc</label>
+                                    <input type="date" class="form-control" id="endDate" name="endDate" value="<fmt:formatDate value="${classInfo.endDate}" pattern="yyyy-MM-dd"/>" required>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="schedule" class="form-label">Lịch học</label>
+                                <input type="text" class="form-control" id="schedule" name="schedule" value="${classInfo.schedule}" required>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="price" class="form-label">Học phí</label>
+                                    <input type="number" class="form-control" id="price" name="price" value="${classInfo.price}" min="0" step="10000" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="maxStudents" class="form-label">Sĩ số tối đa</label>
+                                    <input type="number" class="form-control" id="maxStudents" name="maxStudents" value="${classInfo.maxStudents}" min="1" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                            <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -333,17 +413,18 @@
         </div>
     </footer>
     
-    <script src="/assets/js/jquery-3.6.0.min.js"></script>
-    <script src="/assets/js/bootstrap.bundle.min.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/js/jquery-3.6.0.min.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/js/bootstrap.bundle.min.js"></script>
     <script>
-        function editClass(classId) {
-            // Chuyển hướng đến trang chỉnh sửa lớp học
-            window.location.href = "${pageContext.request.contextPath}/tutor/classes?action=edit&classId=" + classId;
-        }
-
         function updateStatus(classId, status) {
             document.getElementById("updateClassId").value = classId;
             document.getElementById("updateClassStatus").value = status;
+            
+            // Xác nhận nếu là hủy lớp
+            if (status === 'cancelled' && !confirm('Bạn có chắc chắn muốn hủy lớp học này?')) {
+                return;
+            }
+            
             document.getElementById("updateStatusForm").submit();
         }
     </script>
