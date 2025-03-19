@@ -1,0 +1,192 @@
+@charset "UTF-8";
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f9fa;
+    color: #495057;
+}
+
+/* Navbar Styling */
+.navbar {
+    background-color: #0d6efd;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.navbar a:hover {
+    color: #d1d1d1;
+}
+
+/* Dashboard Layout */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.mt-4 {
+    margin-top: 4rem !important;
+}
+
+h2 {
+    font-size: 2.5rem;
+    font-weight: 600;
+}
+
+/* Card Styling */
+.card {
+    border-radius: 10px;
+}
+
+.card-header {
+    background-color: #0d6efd;
+    color: white;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+/* Stat Cards */
+.card-body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card-footer {
+    background-color: #f1f1f1;
+    text-align: center;
+}
+
+.card-footer a {
+    color: #0d6efd;
+    text-decoration: none;
+}
+
+.card-footer a:hover {
+    color: #003366;
+}
+
+.card-text {
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+
+.card-title {
+    font-size: 1.2rem;
+}
+
+/* Table Styling */
+.table {
+    width: 100%;
+    margin-top: 20px;
+}
+
+.table th,
+.table td {
+    padding: 1rem;
+    text-align: center;
+}
+
+.table th {
+    background-color: #f1f1f1;
+}
+
+.table-hover tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+.badge {
+    font-size: 1rem;
+}
+
+.badge.bg-danger {
+    background-color: #dc3545;
+}
+
+.badge.bg-success {
+    background-color: #28a745;
+}
+
+.badge.bg-info {
+    background-color: #17a2b8;
+}
+
+/* Modal Styling */
+.modal-header {
+    background-color: #0d6efd;
+    color: white;
+}
+
+.modal-footer .btn {
+    border-radius: 5px;
+}
+
+/* Buttons */
+.btn-primary,
+.btn-light {
+    border-radius: 5px;
+}
+
+.btn-light:hover {
+    background-color: #f1f1f1;
+}
+
+/* Footer Styling */
+footer {
+    background-color: #343a40;
+    color: white;
+    padding: 20px 0;
+}
+
+footer a {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+footer .bi {
+    font-size: 1.5rem;
+}
+
+footer .d-flex {
+    gap: 15px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 0 15px;
+    }
+
+    h2 {
+        font-size: 2rem;
+    }
+
+    .btn-primary {
+        font-size: 0.9rem;
+    }
+
+    .table th, .table td {
+        padding: 0.8rem;
+    }
+
+    .card-body {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}

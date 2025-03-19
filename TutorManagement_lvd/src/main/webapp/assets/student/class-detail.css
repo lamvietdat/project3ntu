@@ -1,0 +1,214 @@
+@charset "UTF-8";
+/* Basic Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #f8f9fa;
+}
+
+/* Navbar */
+.navbar {
+    background-color: #0d6efd;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.navbar a:hover {
+    color: #d1d1d1;
+}
+
+/* Breadcrumb */
+.breadcrumb {
+    background-color: transparent;
+    padding: 0;
+}
+
+.breadcrumb-item a {
+    text-decoration: none;
+    color: #0d6efd;
+}
+
+.breadcrumb-item a:hover {
+    text-decoration: underline;
+}
+
+.breadcrumb-item.active {
+    color: #6c757d;
+}
+
+/* Container */
+.container {
+    margin-top: 40px;
+}
+
+/* Cards */
+.card {
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    background-color: white;
+}
+
+.card-header {
+    background-color: #0d6efd;
+    color: white;
+    padding: 15px;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+/* Class Detail */
+.card-body .row {
+    margin-bottom: 15px;
+}
+
+.fw-bold {
+    font-weight: bold;
+}
+
+.badge {
+    font-size: 1rem;
+    padding: 5px 10px;
+    border-radius: 20px;
+}
+
+.badge.bg-success {
+    background-color: #198754;
+}
+
+.badge.bg-primary {
+    background-color: #0d6efd;
+}
+
+.badge.bg-info {
+    background-color: #0dcaf0;
+}
+
+.badge.bg-danger {
+    background-color: #dc3545;
+}
+
+.card-body .row .col-md-8 {
+    color: #6c757d;
+}
+
+/* Review Section */
+.review-item {
+    padding: 10px;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.review-item .d-flex {
+    align-items: center;
+    justify-content: space-between;
+}
+
+.review-item .bi {
+    color: #ffc107;
+}
+
+/* Rating */
+.rating {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+}
+
+.rating input {
+    display: none;
+}
+
+.rating label {
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    margin: 0 5px;
+    position: relative;
+    background-color: #ccc;
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+}
+
+.rating label:hover,
+.rating label:hover ~ label,
+.rating input:checked ~ label {
+    background-color: #ffcc00;
+}
+
+/* Buttons */
+.btn-light {
+    background-color: #f8f9fa;
+    color: #0d6efd;
+    border: 1px solid #0d6efd;
+}
+
+.btn-light:hover {
+    background-color: #0d6efd;
+    color: white;
+}
+
+.btn-outline-primary {
+    border-color: #0d6efd;
+    color: #0d6efd;
+}
+
+.btn-outline-primary:hover {
+    background-color: #0d6efd;
+    color: white;
+}
+
+/* Footer */
+footer {
+    background-color: #343a40;
+    color: white;
+    padding: 20px 0;
+}
+
+footer a {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+/* Form Elements */
+input[type="text"], input[type="email"], input[type="tel"], input[type="number"], textarea, select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    background-color: #f8f9fa;
+}
+
+textarea {
+    resize: vertical;
+    height: 100px;
+}
+
+/* Alerts */
+.alert-dismissible {
+    position: relative;
+    padding: 10px 20px;
+    margin-bottom: 20px;
+}
+
+.alert .btn-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
